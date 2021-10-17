@@ -101,6 +101,11 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# Folders
+**/training_process/autocomposer_for_training/DLCV_logo_project
+**/training_process/autocomposer_for_training/DLCV_logo_project.tar.gz
+**/training_process/autocomposer_for_training/data
+
 # Environments
 .env
 .venv
