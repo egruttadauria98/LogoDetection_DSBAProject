@@ -12,13 +12,17 @@ We will take the following steps to implement YOLOv4 on our custom data:
 
 import os
 import pathlib
+from git import Repo
 
 # Clone the tensorflow models repository if it doesn't already exist
 if "models" in pathlib.Path.cwd().parts:
   while "models" in pathlib.Path.cwd().parts:
     os.chdir('..')
 elif not pathlib.Path('models').exists():
-  !git clone --depth 1 https://github.com/tensorflow/models
+    repo = Repo.clone_from(
+        'http://RebSolcia:Clementinabookie18121998!@github.com/tensorflow/models.git --depth 1',
+        branch='master'
+    )
 
 # Commented out IPython magic to ensure Python compatibility.
 # # Install the Object Detection API
