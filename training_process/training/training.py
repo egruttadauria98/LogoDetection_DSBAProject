@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import os
+import pathlib
+from git import Repo
+
 """
 We will take the following steps to implement YOLOv4 on our custom data:
 * Install TensorFlow2 Object Detection Dependencies
@@ -10,22 +14,26 @@ We will take the following steps to implement YOLOv4 on our custom data:
 * Use Trained TensorFlow2 Object Detection For Inference on Test Images
 """
 
-import os
-import pathlib
-from git import Repo
+models_folder = os.path.join(os.getcwd(), "models")
 
-# Clone the tensorflow models repository if it doesn't already exist
+# Clone the tensorflow models repository if it doesn't already exist in this folder
 if "models" in pathlib.Path.cwd().parts:
-  while "models" in pathlib.Path.cwd().parts:
-    os.chdir('..')
+    while "models" in pathlib.Path.cwd().parts:
+        os.chdir('..')
+
 elif not pathlib.Path('models').exists():
+    os.mkdir("./models")
     repo = Repo.clone_from(
-        'http://RebSolcia:Clementinabookie18121998!@github.com/tensorflow/models.git --depth 1',
-        branch='master'
+        'http://RebSolcia:Clementinabookie18121998!@github.com/tensorflow/models.git',
+        models_folder,
+        depth=1,
+        branch='master',
     )
 
 # Commented out IPython magic to ensure Python compatibility.
 # # Install the Object Detection API
+
+
 # %%bash
 # cd models/research/
 # protoc object_detection/protos/*.proto --python_out=.
