@@ -1,0 +1,75 @@
+item {
+    name: "Adidas",
+    id: 1,
+    display_name: "Adidas"
+}
+item {
+    name: "AppleInc",
+    id: 2,
+    display_name: "AppleInc"
+}
+item {
+    name: "Chanel",
+    id: 3,
+    display_name: "Chanel"
+}
+item {
+    name: "CocaCola",
+    id: 4,
+    display_name: "CocaCola"
+}
+item {
+    name: "Emirates",
+    id: 5,
+    display_name: "Emirates"
+}
+item {
+    name: "HardRockCafe",
+    id: 6,
+    display_name: "HardRockCafe"
+}
+item {
+    name: "MercedesBenz",
+    id: 7,
+    display_name: "MercedesBenz"
+}
+item {
+    name: "NFL",
+    id: 8,
+    display_name: "NFL"
+}
+item {
+    name: "Nike",
+    id: 9,
+    display_name: "Nike"
+}
+item {
+    name: "Pepsi",
+    id: 10,
+    display_name: "Pepsi"
+}
+item {
+    name: "Puma",
+    id: 11,
+    display_name: "Puma"
+}
+item {
+    name: "Starbucks",
+    id: 12,
+    display_name: "Starbucks"
+}
+item {
+    name: "TheNorthFace",
+    id: 13,
+    display_name: "TheNorthFace"
+}
+item {
+    name: "Toyota",
+    id: 14,
+    display_name: "Toyota"
+}
+item {
+    name: "UnderArmour",
+    id: 15,
+    display_name: "UnderArmour"
+}
