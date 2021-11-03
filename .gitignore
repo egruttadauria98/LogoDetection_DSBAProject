@@ -104,8 +104,12 @@ celerybeat.pid
 # Folders
 **/training_process/autocomposer_for_training/DLCV_logo_project
 **/training_process/autocomposer_for_training/DLCV_logo_project.tar.gz
-**/training_process/autocomposer_for_training/data
-**/training_process/training/pictures
+**/training_process/autocomposer_for_training/data/
+**/training_process/training/pictures/
+**/training_process/training/FINE_TUNED_MODEL/
+**/training_process/training/TENSOR_RESULTS/
+**/training_process/training/models/
+**/training_process/training/pycoco/
 
 
 # Environments
