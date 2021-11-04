@@ -6,6 +6,7 @@ TFRecords out of them, which are stored inside ./tfrecords
 import os
 import pandas as pd
 import tensorflow as tf
+import numpy as np
 from tqdm import tqdm
 
 """
@@ -57,10 +58,10 @@ def create_example(image, path, example):
         "image/filename": bytes_feature(example["filename"]),
         "image/format": bytes_feature("jpeg"),
         "image/height": int64_feature(example["height"]),
-        "image/object/bbox/xmax": int64_feature(example["xmax"]),
-        "image/object/bbox/xmin": int64_feature(example["xmin"]),
-        "image/object/bbox/ymax": int64_feature(example["ymax"]),
-        "image/object/bbox/ymin": int64_feature(example["ymin"]),
+        "image/object/bbox/xmax": float_feature(example["xmax"]),
+        "image/object/bbox/xmin": float_feature(example["xmin"]),
+        "image/object/bbox/ymax": float_feature(example["ymax"]),
+        "image/object/bbox/ymin": float_feature(example["ymin"]),
         "image/object/class/label": int64_feature(class_text_to_label[example["class"]]),
         "image/object/class/text": bytes_feature(example["class"]),
         "image/width": int64_feature(example["width"])
@@ -76,10 +77,10 @@ def parse_tfrecord_fn(example):
         "image/height": tf.io.FixedLenFeature([], tf.int64),
         "image/object/class/text": tf.io.FixedLenFeature([], tf.string),
         "image/object/class/label": tf.io.FixedLenFeature([], tf.int64),
-        "image/object/bbox/xmin": tf.io.FixedLenFeature([], tf.int64),
-        "image/object/bbox/ymin": tf.io.FixedLenFeature([], tf.int64),
-        "image/object/bbox/xmax": tf.io.FixedLenFeature([], tf.int64),
-        "image/object/bbox/ymax": tf.io.FixedLenFeature([], tf.int64)
+        "image/object/bbox/xmin": tf.io.FixedLenFeature([], tf.float32),
+        "image/object/bbox/ymin": tf.io.FixedLenFeature([], tf.float32),
+        "image/object/bbox/xmax": tf.io.FixedLenFeature([], tf.float32),
+        "image/object/bbox/ymax": tf.io.FixedLenFeature([], tf.float32)
     }
     example = tf.io.parse_single_example(example, feature_description)
     example["image"] = tf.io.decode_jpeg(example["image"], channels=3)
