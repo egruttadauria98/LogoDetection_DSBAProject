@@ -31,6 +31,8 @@ tfrecords_files = {"train":[],
                    "test":[]}
 
 for folder in os.listdir("./tfrecords"):
+    if not "Batch" in folder:
+        continue
     for split in splits:
         tfrecord_path = f"./tfrecords/{folder}/{split}/logos.tfrecord"
         tfrecords_files[split].append(tfrecord_path)

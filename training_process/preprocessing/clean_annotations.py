@@ -14,9 +14,12 @@ import os
 # 1. Unzip datasets in data
 src_dir = "./data/"
 for fname in os.listdir(src_dir):
+    if not "Batch" in fname:
+            continue
     print(f"Unzipping {fname}")
     zipfile_path = src_dir + fname
-    dest_dir = src_dir + fname[:-15]
+    new_name = fname.split(".")[0]
+    dest_dir = src_dir + new_name
     try:
         os.mkdir(dest_dir)
     except:
@@ -47,7 +50,7 @@ def clean_annotations(annotations_filepath):
 splits = ["train", "valid", "test"]
 
 for fname in os.listdir("./data/"):
-    if fname[-4:] == ".zip":
+    if fname[-4:] == ".zip" or not "Batch" in fname:
         continue
     for split in splits:
         annotations_filepath = f"./data/{fname}/{split}/_annotations.csv"

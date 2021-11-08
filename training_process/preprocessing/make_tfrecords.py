@@ -123,7 +123,7 @@ Produce TFRecords for each folder in ./data
 """
 splits = ["train", "valid", "test"]
 for folder in os.listdir("./data"):
-    if folder[-4:] == ".zip":
+    if folder[-4:] == ".zip" or not "Batch" in folder:
         continue
     for split in splits:
         images_dir = f"./data/{folder}/{split}"
