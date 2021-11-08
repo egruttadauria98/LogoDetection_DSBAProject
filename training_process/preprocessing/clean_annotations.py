@@ -32,8 +32,15 @@ def clean_annotations(annotations_filepath):
     Given the filepath of an annatations csv file, create a clean version of the csv file
     """
     # Remove Ralph Laurent, Intimissimi and null classes
+
     df = pd.read_csv(annotations_filepath)
-    df = df[~df["class"].isin(["RalphLaurenCorporation", "Intimissimi", "null"])]
+    logos_to_include = ["Nike", "Adidas", "UnderArmour", "Puma", "TheNorthFace"]
+    df = df[df["class"].isin(logos_to_include)]
+    df["xmin"] = df["xmin"] / df["width"]
+    df["xmax"] = df["xmax"] / df["width"]
+    df["ymin"] = df["ymin"] / df["height"]
+    df["ymax"] = df["ymax"] / df["height"]
+    print(df.dtypes)
     output_csv_path = annotations_filepath[:-16] + "_annotations_clean.csv"
     df.to_csv(output_csv_path, index=False)
 
