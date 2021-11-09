@@ -37,7 +37,8 @@ def clean_annotations(annotations_filepath):
     # Remove Ralph Laurent, Intimissimi and null classes
 
     df = pd.read_csv(annotations_filepath)
-    logos_to_include = ["Nike", "Adidas", "UnderArmour", "Puma", "TheNorthFace"]
+    logos_to_include = ["Nike", "Adidas", "UnderArmour", "Puma", "TheNorthFace", 
+                        "Starbucks", "MercedesBenz", "NFL", "AppleInc"]
     df = df[df["class"].isin(logos_to_include)]
     df["xmin"] = df["xmin"] / df["width"]
     df["xmax"] = df["xmax"] / df["width"]
