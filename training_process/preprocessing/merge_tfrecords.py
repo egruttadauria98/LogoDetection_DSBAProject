@@ -1,53 +1,55 @@
 """
-This script takes tfrecords from ./tfrecords and merge them into a single folder for each train, valid 
-and test splits inside ./output_tfrecords
+This script takes tfrecords from ./tfrecords and merge them into a single folder inside ./output_tfrecords
 """
 
 import os
 import shutil
 import tensorflow as tf
 import numpy as np
-
-splits = ["train", "valid", "test"]
+import zipfile
 
 """
-Create train, valid and test inside ./output_tfrecords and move .pbtxt file inside each split folder
+Unzip tfrecords in ./tfrecords
 """
-source_file = "./logos_label_map.pbtxt"
-for split in splits:
-    dest_path = "./output_tfrecords/" + split
+src_dir = "./tfrecords/"
+for fname in os.listdir(src_dir):
+    if not "Batch" in fname:
+            continue
+    print(f"Unzipping {fname}")
+    zipfile_path = src_dir + fname
+    new_name = fname.split(".")[0]
+    dest_dir = src_dir + new_name
     try:
-        os.makedirs(dest_path, exist_ok=True)
+        os.mkdir(dest_dir)
     except:
         pass
-    shutil.copy(source_file, dest_path)
+    with zipfile.ZipFile(zipfile_path, 'r') as zip_ref:
+        zip_ref.extractall(dest_dir)
+print("Finished unzipping! \n")
 
+"""
+Move label map to ./output_tfrecords
+"""
+dest_path = "./output_tfrecords/train"
+source_file = "./logos_label_map.pbtxt"
+try:
+    os.makedirs(dest_path, exist_ok=True)
+except:
+    pass
+shutil.copy(source_file, dest_path)
 
 """
 Create list of tfrecord files for each split
 """
-tfrecords_files = {"train":[],
-                   "valid":[],
-                   "test":[]}
-
-for folder in os.listdir("./tfrecords"):
-    if not "Batch" in folder:
-        continue
-    for split in splits:
-        tfrecord_path = f"./tfrecords/{folder}/{split}/logos.tfrecord"
-        tfrecords_files[split].append(tfrecord_path)
-
+tfrecords_files = [f"./tfrecords/{folder}/train/logo.tfrecord" for folder in os.listdir("./tfrecords") if ".zip" not in folder]
 
 """
-Merge tfrecords inside each split into a unique tfrecord
+Merge tfrecords into a unique one
 """
-for split in splits:
-    list_of_tfrecords = tfrecords_files[split]
-    merged_dataset = tf.data.TFRecordDataset(list_of_tfrecords)
-    dest_path = f"./output_tfrecords/{split}/merged_logos.tfrecord"
-    writer = tf.data.experimental.TFRecordWriter(dest_path)
-    writer.write(merged_dataset)
-    len_dataset = merged_dataset.reduce(np.int64(0), lambda x, _: x + 1)
-    print(f"{split} dataset contains {len_dataset} instances.") 
+merged_dataset = tf.data.TFRecordDataset(tfrecords_files)
+dest_path = f"./output_tfrecords/train/merged_logos.tfrecord"
+writer = tf.data.experimental.TFRecordWriter(dest_path)
+writer.write(merged_dataset)
+len_dataset = merged_dataset.reduce(np.int64(0), lambda x, _: x + 1)
+print(f"Train dataset contains {len_dataset} instances.") 
 print("Finished merging! \n")
-
