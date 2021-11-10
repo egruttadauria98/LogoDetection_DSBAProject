@@ -13,7 +13,7 @@ Unzip tfrecords in ./tfrecords
 """
 src_dir = "./tfrecords/"
 for fname in os.listdir(src_dir):
-    if not "Batch" in fname:
+    if not "train" in fname:
             continue
     print(f"Unzipping {fname}")
     zipfile_path = src_dir + fname
@@ -31,17 +31,26 @@ print("Finished unzipping! \n")
 Move label map to ./output_tfrecords
 """
 dest_path = "./output_tfrecords/train"
-source_file = "./logos_label_map.pbtxt"
-try:
-    os.makedirs(dest_path, exist_ok=True)
-except:
-    pass
-shutil.copy(source_file, dest_path)
+#source_file = "./logos_label_map.pbtxt"
+#try:
+#    os.makedirs(dest_path, exist_ok=True)
+#except:
+#    pass
+#shutil.copy(source_file, dest_path)
 
 """
 Create list of tfrecord files for each split
 """
-tfrecords_files = [f"./tfrecords/{folder}/train/logo.tfrecord" for folder in os.listdir("./tfrecords") if ".zip" not in folder]
+tfrecords_files = []
+for folder in os.listdir("./tfrecords"):
+    if ".zip" not in folder:
+        if "README" not in folder:
+            tfrecords_files.append(f"./tfrecords/{folder}/train/logo.tfrecord")
+        else:
+            print("It is not a zip but it's a README!")
+    else:
+        print("It is a zip")
+
 
 """
 Merge tfrecords into a unique one
