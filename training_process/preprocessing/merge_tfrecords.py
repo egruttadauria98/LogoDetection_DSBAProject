@@ -33,12 +33,12 @@ Move label map to ./output_tfrecords
 
 dest_path = "./output_tfrecords/train"
 
-#source_file = "./logos_label_map.pbtxt"
-#try:
-#    os.makedirs(dest_path, exist_ok=True)
-#except:
-#    pass
-#shutil.copy(source_file, dest_path)
+source_file = "./logos_label_map.pbtxt"
+try:
+    os.makedirs(dest_path, exist_ok=True)
+except:
+    pass
+shutil.copy(source_file, dest_path)
 
 """
 Create list of tfrecord files for each split
