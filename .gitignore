@@ -112,6 +112,8 @@ celerybeat.pid
 **/training_process/training/pycoco/*
 **/training_process/preprocessing/data/*
 **/training_process/preprocessing/data_balanced_folder/*
+**/training_process/preprocessing/tfrecords/*
+**/training_process/preprocessing/ouput_tfrecords/*
 
 # Environments
 .env
