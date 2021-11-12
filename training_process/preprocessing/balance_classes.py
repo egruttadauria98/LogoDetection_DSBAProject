@@ -112,8 +112,8 @@ for folder in folders:
         images_already_moved += images_to_move
         for image in images_to_move:
             img_path = f"{balanced_splitted_dir}/{logo_to_folder[logo]}/{image}"
-            dest_dir = f"{balanced_splitted_dir}/{folder}"
-            shutil.copy(img_path, dest_dir)
+            dest_path = f"{balanced_splitted_dir}/{folder}/{image}"
+            shutil.move(img_path, dest_path)
 
 
 
