@@ -88,3 +88,32 @@ elif "data_balanced_folder" not in os.listdir(os.getcwd()):
         print(f"Amount of images in {balanced_splitted_dir} is {len(os.listdir(balanced_splitted_dir)) - 1}")
 
         original_df = original_df[~original_df["filename"].isin(image_names_pergroup)]
+
+
+
+"""
+Move 100 pictures for each class in each of the four group folders
+"""
+
+logo_to_folder = {"Nike":"Nike", "Adidas":"Adidas", "MercedesBenz":"MercedesBenz", 
+                  "Starbucks":"MercedesBenz", "AppleInc":"AppleInc", "Puma":"AppleInc",
+                  "UnderArmour":"AppleInc", "TheNorthFace":"AppleInc", "NFL":"AppleInc"}
+
+folders = ["Nike", "Adidas", "MercedesBenz", "AppleInc"]
+
+images_already_moved = []
+for folder in folders:
+    for logo in logo_to_folder.keys():
+        # if the logo is already in the folder, ignore it
+        if logo_to_folder[logo] == folder:
+            continue
+        logo_df = df[df["class"] == logo]
+        images_to_move = logo_df[~logo_df["filename"].isin(images_already_moved)]["filename"].sample(n=100).values
+        images_already_moved += images_to_move
+        for image in images_to_move:
+            img_path = f"{balanced_splitted_dir}/{logo_to_folder[logo]}/{image}"
+            dest_dir = f"{balanced_splitted_dir}/{folder}"
+            shutil.copy(img_path, dest_dir)
+
+
+
