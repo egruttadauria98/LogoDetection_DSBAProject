@@ -30,7 +30,9 @@ print("Finished unzipping! \n")
 """
 Move label map to ./output_tfrecords
 """
+
 dest_path = "./output_tfrecords/train"
+
 #source_file = "./logos_label_map.pbtxt"
 #try:
 #    os.makedirs(dest_path, exist_ok=True)
@@ -41,11 +43,13 @@ dest_path = "./output_tfrecords/train"
 """
 Create list of tfrecord files for each split
 """
-tfrecords_files = []
+tfrecords_train_files = []
+tfrecords_valid_files = []
 for folder in os.listdir("./tfrecords"):
     if ".zip" not in folder:
         if "README" not in folder:
-            tfrecords_files.append(f"./tfrecords/{folder}/train/logo.tfrecord")
+            tfrecords_train_files.append(f"./tfrecords/{folder}/train/logo.tfrecord")
+            tfrecords_valid_files.append(f"./tfrecords/{folder}/valid/logo.tfrecord")
         else:
             print("It is not a zip but it's a README!")
     else:
@@ -55,10 +59,18 @@ for folder in os.listdir("./tfrecords"):
 """
 Merge tfrecords into a unique one
 """
-merged_dataset = tf.data.TFRecordDataset(tfrecords_files)
+merged_dataset = tf.data.TFRecordDataset(tfrecords_train_files)
 dest_path = f"./output_tfrecords/train/merged_logos.tfrecord"
 writer = tf.data.experimental.TFRecordWriter(dest_path)
 writer.write(merged_dataset)
 len_dataset = merged_dataset.reduce(np.int64(0), lambda x, _: x + 1)
 print(f"Train dataset contains {len_dataset} instances.") 
+print("Finished merging! \n")
+
+merged_dataset = tf.data.TFRecordDataset(tfrecords_valid_files)
+dest_path = f"./output_tfrecords/valid/merged_logos.tfrecord"
+writer = tf.data.experimental.TFRecordWriter(dest_path)
+writer.write(merged_dataset)
+len_dataset = merged_dataset.reduce(np.int64(0), lambda x, _: x + 1)
+print(f"Valid dataset contains {len_dataset} instances.")
 print("Finished merging! \n")
