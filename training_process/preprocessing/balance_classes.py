@@ -2,7 +2,6 @@ import os
 import shutil
 import pandas as pd
 
-
 """
 Merge each _clean_annotations.csv file into a single big dataframe
 """
@@ -45,7 +44,7 @@ elif "train_merged" not in os.listdir("data"):
 
     df.to_csv(os.path.join(train_destination_dir, "merged_annotations_clean.csv"), index=False)
 
-    print(f"Files in train merged are {len(os.listdir('./data/train_merged'))-1}")
+    print(f"Files in train merged are {len(os.listdir('./data/train_merged')) - 1}")
 
 """
 Identify groups
@@ -80,11 +79,12 @@ elif "data_balanced_folder" not in os.listdir(os.getcwd()):
             os.rmdir(balanced_splitted_dir)
             os.mkdir(balanced_splitted_dir)
 
-        df_image_names.to_csv(f"{balanced_splitted_dir}/{group[0]}_balanced.csv", index=False)
+        shutil.copyfile(f"{data_trainmerged}/merged_annotations_clean.csv",
+                        f"{balanced_splitted_dir}/merged_annotations_clean.csv")
 
         for image in df_image_names["filename"].unique():
             shutil.move(f"{data_trainmerged}/{image}", f"{balanced_splitted_dir}/{image}")
 
-        print(f"Amount of images in {balanced_splitted_dir} is {len(os.listdir(balanced_splitted_dir))-1}")
+        print(f"Amount of images in {balanced_splitted_dir} is {len(os.listdir(balanced_splitted_dir)) - 1}")
 
         original_df = original_df[~original_df["filename"].isin(image_names_pergroup)]
