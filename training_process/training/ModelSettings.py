@@ -4,13 +4,7 @@ def Model_Setting():
             'model_name': 'efficientdet_d0_coco17_tpu-32',
             'base_pipeline_file': 'ssd_efficientdet_d0_512x512_coco17_tpu-8.config',
             'pretrained_checkpoint': 'efficientdet_d0_coco17_tpu-32.tar.gz',
-            'batch_size': 15
-        },
-        'centernet_hg104':{
-            'model_name': 'centernet_hg104_512x512_coco17_tpu-8',
-            'base_pipeline_file': 'center_net_deepmac_512x512_voc_only_tpu-32.config',
-            'pretrained_checkpoint': 'centernet_hg104_512x512_coco17_tpu-8.tar.gz',
-            'batch_size': 15
+            'batch_size': 16
         },
         'faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8':{
             'model_name': 'faster_rcnn_inception_resnet_v2_640x640_coco17_tpu-8',
