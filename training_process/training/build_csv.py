@@ -17,7 +17,7 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
     sub = re.compile(r"/home/labuser/LogoDet/LogoDetection_DSBAProject/training_process/training/INFERENCE_DIR/")
     name_image = re.sub(sub,"",name_image)
     
-    info = ["filename","class","probability","xmin","ymin","xmax","ymax"]
+    info = ["filename","class","probability","ymin","xmin","ymax","xmax"]
 
     accuracy = detections['detection_scores'][0].numpy()
     boxes = detections['detection_boxes'][0].numpy()
