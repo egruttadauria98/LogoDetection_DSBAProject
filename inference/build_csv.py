@@ -14,7 +14,7 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
     #if "csv prediction" not in os.listdir():
     #    os.mkdir("csv prediction")
     
-    sub = re.compile(r"/home/labuser/LogoDet/LogoDetection_DSBAProject/training_process/training/INFERENCE_DIR/")
+    sub = re.compile(r"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/INFERENCE_DIR/")
     name_image = re.sub(sub,"",name_image)
     
     info = ["filename","class","probability","ymin","xmin","ymax","xmax"]
@@ -33,14 +33,11 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
         df_csv = pd.DataFrame(columns=info)
         
     else:
-        df_csv = pd.read_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/training_process/training/csv prediction/prediction_bounding_boxes_{threshold}.csv")
+        df_csv = pd.read_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold}.csv")
         df_csv = df_csv
+    
     lenght = len (true_accuracy)
     for num in range(lenght):
-
-
-
-
         collection_image={}
         collection_image[name_image]={}
         collection_image[name_image][num]={}
@@ -73,4 +70,6 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
         element = pd.DataFrame([dict_for_df], columns=info)
        
         df_csv = pd.concat([df_csv,element],ignore_index=True)
-    df_csv.to_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/training_process/training/csv prediction/prediction_bounding_boxes_{threshold}.csv",index=False)
+                
+                
+    df_csv.to_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold}.csv",index=False)

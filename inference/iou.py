@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-root = 'inference/'
+root = '/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/'
 
 # Upload test images annotations
 real_box_by_image = pd.read_csv(root + 'data_iou/_annotations.csv')
@@ -16,12 +16,12 @@ def compute_area_box(row):
 real_box_by_image['area'] = real_box_by_image.apply(lambda x: compute_area_box(x), axis=1)
 
 # Upload predictions of test images
-predicted_box_by_image = pd.read_csv(root + 'data_iou/prediction_bounding_boxes_04.csv')
+predicted_box_by_image = pd.read_csv(root + 'data_iou/prediction_bounding_boxes_60.csv')
 print(f'The shape of the prediction set is {predicted_box_by_image.shape}')
 
-'''
-### Run this part to change the name of the files if still not changed from Roboflow
 
+### Run this part to change the name of the files if still not changed from Roboflow
+'''
 def clean_filename(filename):
     # Clean the filename from Roboflow hash
     return filename.split('.')[0]
@@ -30,7 +30,8 @@ real_box_by_image['filename'] = real_box_by_image['filename'].apply(lambda x: cl
 real_box_by_image.to_csv(root + 'data_iou/_annotations.csv', index=False)
 
 predicted_box_by_image['filename'] = predicted_box_by_image['filename'].apply(lambda x: clean_filename(x))
-predicted_box_by_image.to_csv(root + 'data_iou/prediction_bounding_boxes_04.csv', index=False)
+
+predicted_box_by_image.to_csv(root + 'data_iou/prediction_bounding_boxes_60.csv', index=False)
 '''
 
 def extract_coordinates(row, width=1, height=1):
@@ -76,17 +77,8 @@ df_iou['iou_only_predicted'] = np.nan
 
 print(f'The shape of the IoU df is {df_iou.shape}')
 
-# Before moving the IoU, we need to convert the predictions conversions from relative to absolute measures
-# All the coordinates are in decimal, therefore
-# for xmin, xmax -> multiply them by width of the image
-# for ymin, ymax -> multiply them by height of the image
-# This is done inside the loop
-
 for image in set(df_iou['filename']):
-
-    image_width = real_box_by_image[real_box_by_image['filename']==image].reset_index(drop=True).loc[0, 'width']
-    image_height = real_box_by_image[real_box_by_image['filename']==image].reset_index(drop=True).loc[0, 'height']
-
+    
     # What are the different types of logos present in the image?
     logo_type_list = list(set(real_box_by_image[real_box_by_image['filename'] == image]['class']))
 
@@ -140,5 +132,10 @@ for image in set(df_iou['filename']):
 
 df_iou.to_csv(root + 'data_iou/iou_results.csv', index=False)
 
+print("Result IOU complete")
+print(df_iou.groupby('class')['iou_complete'].mean().reset_index())
+print()
+print("Result IOU only predicted")
+print(df_iou.groupby('class')['iou_only_predicted'].mean().reset_index())
 
 
