@@ -5,6 +5,11 @@ root = '/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/'
 
 # Upload test images annotations
 real_box_by_image = pd.read_csv(root + 'data_iou/_annotations.csv')
+
+real_box_by_image = real_box_by_image[real_box_by_image['filename'].notna()]
+
+real_box_by_image = real_box_by_image[(real_box_by_image["area"] > 1000)]
+
 print(f'The shape of the test set is {real_box_by_image.shape}')
 
 def compute_area_box(row):
@@ -16,12 +21,14 @@ def compute_area_box(row):
 real_box_by_image['area'] = real_box_by_image.apply(lambda x: compute_area_box(x), axis=1)
 
 # Upload predictions of test images
-predicted_box_by_image = pd.read_csv(root + 'data_iou/prediction_bounding_boxes_60.csv')
+filename_prediction = 'prediction_bounding_boxes_60.csv'
+
+predicted_box_by_image = pd.read_csv(root + 'data_iou/' + filename_prediction)
 print(f'The shape of the prediction set is {predicted_box_by_image.shape}')
 
 
 ### Run this part to change the name of the files if still not changed from Roboflow
-'''
+"""
 def clean_filename(filename):
     # Clean the filename from Roboflow hash
     return filename.split('.')[0]
@@ -31,11 +38,11 @@ real_box_by_image.to_csv(root + 'data_iou/_annotations.csv', index=False)
 
 predicted_box_by_image['filename'] = predicted_box_by_image['filename'].apply(lambda x: clean_filename(x))
 
-predicted_box_by_image.to_csv(root + 'data_iou/prediction_bounding_boxes_60.csv', index=False)
-'''
+predicted_box_by_image.to_csv(root + 'data_iou/' + filename_prediction, index=False)"""
+
 
 def extract_coordinates(row, width=1, height=1):
-    return [row['xmin']*width, row['ymin']*height, row['xmax']*width, row['ymax']*height]
+    return [row['ymin']*height, row['xmin']*width, row['ymax']*height, row['xmax']*width]
 
 def intersection_over_union(boxA, boxB):
     # determine the (x, y)-coordinates of the intersection rectangle
@@ -130,7 +137,7 @@ for image in set(df_iou['filename']):
                 bb_predicted.reset_index(drop=True, inplace=True)
 
 
-df_iou.to_csv(root + 'data_iou/iou_results.csv', index=False)
+df_iou.to_csv(root + 'data_iou/iou_results_' + filename_prediction, index=False)
 
 print("Result IOU complete")
 print(df_iou.groupby('class')['iou_complete'].mean().reset_index())
