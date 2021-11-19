@@ -55,34 +55,35 @@ balanced_destination_dir = "./data_balanced_folder"
 
 if "data_balanced_folder" in os.listdir(os.getcwd()):
     os.rmdir("data_balanced_folder")
+    os.mkdir(balanced_destination_dir)
 elif "data_balanced_folder" not in os.listdir(os.getcwd()):
     os.mkdir(balanced_destination_dir)
 
-    original_df = pd.read_csv(f"{data_trainmerged}/merged_annotations_clean.csv")
+original_df = pd.read_csv(f"{data_trainmerged}/merged_annotations_clean.csv")
 
-    logo_groups = [["TheNorthFace"], ["Puma"], ["UnderArmour"], ["AppleInc"], ["MercedesBenz"], ["NFL"],
-                   ["Starbucks"], ["Adidas"], ["Nike"], ["Emirates"], ["CocaCola"], ["HardRockCafe"]]
+logo_groups = [["TheNorthFace"], ["Puma"], ["UnderArmour"], ["AppleInc"], ["MercedesBenz"], ["NFL"],
+               ["Starbucks"], ["Adidas"], ["Nike"], ["Emirates"], ["CocaCola"], ["HardRockCafe"]]
 
-    for group in logo_groups:
-        df_group = original_df[original_df["class"].isin(group)]
-        image_names_pergroup = df_group["filename"].unique()
+for group in logo_groups:
+    df_group = original_df[original_df["class"].isin(group)]
+    image_names_pergroup = df_group["filename"].unique()
 
-        df_image_names = original_df[original_df["filename"].isin(image_names_pergroup)]
+    df_image_names = original_df[original_df["filename"].isin(image_names_pergroup)]
 
-        balanced_splitted_dir = f"{balanced_destination_dir}/{group[0]}"
+    balanced_splitted_dir = f"{balanced_destination_dir}/{group[0]}"
 
-        if group[0] not in os.listdir(balanced_destination_dir):
-            os.mkdir(balanced_splitted_dir)
-        else:
-            os.rmdir(balanced_splitted_dir)
-            os.mkdir(balanced_splitted_dir)
+    if group[0] not in os.listdir(balanced_destination_dir):
+        os.mkdir(balanced_splitted_dir)
+    else:
+        os.rmdir(balanced_splitted_dir)
+        os.mkdir(balanced_splitted_dir)
 
-        for image in df_image_names["filename"].unique():
-            shutil.move(f"{data_trainmerged}/{image}", f"{balanced_splitted_dir}/{image}")
+    for image in df_image_names["filename"].unique():
+        shutil.move(f"{data_trainmerged}/{image}", f"{balanced_splitted_dir}/{image}")
 
-        print(f"Amount of images in {balanced_splitted_dir} is {len(os.listdir(balanced_splitted_dir)) - 1}")
+    print(f"Amount of images in {balanced_splitted_dir} is {len(os.listdir(balanced_splitted_dir)) - 1}")
 
-        original_df = original_df[~original_df["filename"].isin(image_names_pergroup)]
+    original_df = original_df[~original_df["filename"].isin(image_names_pergroup)]
 
 """
 
