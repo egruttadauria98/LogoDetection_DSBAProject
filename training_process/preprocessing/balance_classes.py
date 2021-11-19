@@ -61,7 +61,7 @@ elif "data_balanced_folder" not in os.listdir(os.getcwd()):
     original_df = pd.read_csv(f"{data_trainmerged}/merged_annotations_clean.csv")
 
     logo_groups = [["TheNorthFace"], ["Puma"], ["UnderArmour"], ["AppleInc"], ["MercedesBenz"], ["NFL"],
-                   ["Starbucks"], ["Adidas"], ["Nike"]]
+                   ["Starbucks"], ["Adidas"], ["Nike"], ["Emirates"], ["CocaCola"], ["HardRockCafe"]]
 
     for group in logo_groups:
         df_group = original_df[original_df["class"].isin(group)]
