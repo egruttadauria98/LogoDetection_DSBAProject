@@ -38,7 +38,8 @@ def clean_annotations(annotations_filepath):
 
     df = pd.read_csv(annotations_filepath)
     logos_to_include = ["Nike", "Adidas", "UnderArmour", "Puma", "TheNorthFace", 
-                        "Starbucks", "MercedesBenz", "NFL", "AppleInc"]
+                        "Starbucks", "MercedesBenz", "NFL", "AppleInc",
+                        "HardRockCafe", "CocaCola", "Emirates"]
     df = df[df["class"].isin(logos_to_include)]
     df["xmin"] = df["xmin"] / df["width"]
     df["xmax"] = df["xmax"] / df["width"]
