@@ -21,14 +21,14 @@ def compute_area_box(row):
 real_box_by_image['area'] = real_box_by_image.apply(lambda x: compute_area_box(x), axis=1)
 
 # Upload predictions of test images
-filename_prediction = 'prediction_bounding_boxes_60.csv'
+filename_prediction = 'prediction_bounding_boxes_79_bestmodel.csv'
 
 predicted_box_by_image = pd.read_csv(root + 'data_iou/' + filename_prediction)
 print(f'The shape of the prediction set is {predicted_box_by_image.shape}')
 
 
 ### Run this part to change the name of the files if still not changed from Roboflow
-"""
+
 def clean_filename(filename):
     # Clean the filename from Roboflow hash
     return filename.split('.')[0]
@@ -38,7 +38,7 @@ real_box_by_image.to_csv(root + 'data_iou/_annotations.csv', index=False)
 
 predicted_box_by_image['filename'] = predicted_box_by_image['filename'].apply(lambda x: clean_filename(x))
 
-predicted_box_by_image.to_csv(root + 'data_iou/' + filename_prediction, index=False)"""
+predicted_box_by_image.to_csv(root + 'data_iou/' + filename_prediction, index=False)
 
 
 def extract_coordinates(row, width=1, height=1):
