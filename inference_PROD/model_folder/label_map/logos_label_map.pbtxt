@@ -1,0 +1,45 @@
+item {
+    name: "Adidas",
+    id: 1,
+    display_name: "Adidas"
+}
+item {
+    name: "AppleInc",
+    id: 2,
+    display_name: "AppleInc"
+}
+item {
+    name: "MercedesBenz",
+    id: 3,
+    display_name: "MercedesBenz"
+}
+item {
+    name: "NFL",
+    id: 4,
+    display_name: "NFL"
+}
+item {
+    name: "Nike",
+    id: 5,
+    display_name: "Nike"
+}
+item {
+    name: "Puma",
+    id: 6,
+    display_name: "Puma"
+}
+item {
+    name: "Starbucks",
+    id: 7,
+    display_name: "Starbucks"
+}
+item {
+    name: "TheNorthFace",
+    id: 8,
+    display_name: "TheNorthFace"
+}
+item {
+    name: "UnderArmour",
+    id: 9,
+    display_name: "UnderArmour"
+}
