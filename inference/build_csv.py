@@ -33,7 +33,7 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
         df_csv = pd.DataFrame(columns=info)
         
     else:
-        df_csv = pd.read_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold}.csv")
+        df_csv = pd.read_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold*100}.csv")
         df_csv = df_csv
     
     lenght = len (true_accuracy)
@@ -72,4 +72,4 @@ def build_predicion_CSV (threshold , name_image , counter, detections, category)
         df_csv = pd.concat([df_csv,element],ignore_index=True)
                 
                 
-    df_csv.to_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold}.csv",index=False)
+    df_csv.to_csv(f"/home/labuser/LogoDet/LogoDetection_DSBAProject/inference/csv_prediction/prediction_bounding_boxes_{threshold*100}.csv",index=False)
